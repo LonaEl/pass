@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
+import dotenv from 'dotenv'
+dotenv.config();
 const bcrypt = require("bcryptjs");
 app.set("view engine", "ejs"); //shows the html and javascript in node, instead of connecting to the UI
 app.use(express.urlencoded({ extended: false })); //passing data from backend to react
@@ -13,11 +15,9 @@ var nodemailer = require("nodemailer");
 
 //for forgot password, we particularly need the jwt secret, connect to the database and getting the users available in the database
 
-const JWT_SECRET =
-  "BpdvBB6gohlr2ghb289((aio9jkFGklk0990opH6383ghe[[u90httLKPmlsjnbgjklSATYplBhf9LOl";
+const JWT_SECRET = process.env.JWT
 
-const mongoUrl =
-  "mongodb+srv://witsie:Nyaka2000Bizana@cluster0.cr5jvbx.mongodb.net/?retryWrites=true&w=majority";
+const mongoUrl = process.env.DB
 
   //connected to database or not
 mongoose
@@ -121,14 +121,14 @@ app.post("/forgot-password", async (req, res) => {
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "witsie101@gmail.com",
-        pass: "golnuwtfnuobdxor",
+        user: process.env.ME,
+        pass: process.env.PASS,
       },
     });
 
     var mailOptions = {
-      from: "witsie101@gmail.com",
-      to: "elethusontsele@gmail.com",
+      from: process.env.ME,
+      to: process.env.USER,
       subject: "Password Reset",
       text: link,
     };
